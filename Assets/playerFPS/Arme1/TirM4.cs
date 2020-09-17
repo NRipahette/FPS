@@ -189,15 +189,18 @@ public class TirM4 : MonoBehaviour
         {
             if (rh.collider.gameObject.layer == 9)
             {
-                //if (rh.collider.isTrigger)
-                //{
-                Debug.Log(rh.transform.name);
                 Enemy EnemyHit = rh.transform.GetComponentInParent<Enemy>();
                 HitboxChecker HitBox = rh.transform.GetComponent<HitboxChecker>();
                 Debug.Log(rh.transform.name);
-                if (HitBox.HitType == HitboxChecker.HitboxPart.Head)
+                if (HitBox.HitType ==
+                HitboxChecker.HitboxPart.Head)
                 {
                     EnemyHit.IsDamaged(150);
+                    GameObject brains;
+                    brains = Instantiate(EnemyManager.MeatEffect, rh.point, Quaternion.FromToRotation(Vector3.forward, rh.normal)) as GameObject;
+                    brains.transform.Rotate(0, 0, Random.Range(-180, 180));
+                    //brains.transform.SetParent(rh.transform);
+                    Destroy(brains, 2.5f);
                 }
                 else if (HitBox.HitType == HitboxChecker.HitboxPart.body)
                 {
@@ -210,16 +213,32 @@ public class TirM4 : MonoBehaviour
 
                 GameObject bloodEffect;
                 bloodEffect = Instantiate(EnemyManager.BloodEffect, rh.point, Quaternion.FromToRotation(Vector3.forward, rh.normal)) as GameObject;
-                bloodEffect.transform.Rotate(0, 0, Random.Range(-180, 180));
+                bloodEffect.transform.localScale *= 0.5f;
                 bloodEffect.transform.SetParent(rh.transform);
-                Destroy(bloodEffect, 4);
-                //}
+                Destroy(bloodEffect, 3f);
+                // }
             }
             if (rh.transform.tag == "Enemy")
             {
                 Debug.Log("Enemi touché");
                 rh.rigidbody.AddForceAtPosition(force * direction, rh.point);
                 rh.rigidbody.GetComponent<Enemy>().IsDamaged(27);
+            }
+            if (rh.transform.gameObject.layer == 11)
+            {
+
+                rh.rigidbody.AddForceAtPosition(force * direction, rh.point);
+
+                GameObject Impact;
+                Impact = Instantiate(BulletHole, rh.point, Quaternion.FromToRotation(Vector3.forward, rh.normal)) as GameObject;
+                Impact.transform.Rotate(0, 0, Random.Range(-180, 180));
+                Impact.transform.SetParent(rh.transform);
+                Destroy(Impact, 50);
+
+                GameObject HitFX;
+                HitFX = Instantiate(HitEffect, rh.point, Quaternion.FromToRotation(Vector3.forward, rh.normal)) as GameObject;
+                HitFX.transform.SetParent(rh.transform);
+                Destroy(HitFX, 0.85f);
             }
             if (rh.transform.tag == "Environement")
             {
