@@ -1,7 +1,7 @@
 # FPS
 Tester les méchaniques dans SampleScene
 
-Liste plus ou moins exhaustive des choses faites : 
+Liste plus ou moins exhaustive des choses faites (de mémoire) : 
 - Tir :
    - prefab arme avec animations
    - système de gestion de munitions chargeur/réserve
